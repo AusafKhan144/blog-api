@@ -26,7 +26,6 @@ def create_article(article: ArticleCreate, db: Session = Depends(get_db)):
     return {**object_to_dict(article_data), "tags": final_tag_names}
 
 
-
 @router.get("/", response_model=Page[ArticleResponse])
 def get_all_articles(
     db: Session = Depends(get_db),
@@ -54,7 +53,8 @@ def get_all_articles(
 
     for art in articles:
         tag_names = [
-            t.name for t in db.query(Tags)
+            t.name
+            for t in db.query(Tags)
             .join(ArticleTags, Tags.id == ArticleTags.tag_id)
             .filter(ArticleTags.article_id == art.id)
             .all()
@@ -62,7 +62,6 @@ def get_all_articles(
         response.append({**object_to_dict(art), "tags": tag_names})
 
     return paginate(response)
-
 
 
 @router.get("/{id}", response_model=ArticleResponse)

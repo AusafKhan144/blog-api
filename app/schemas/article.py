@@ -7,7 +7,7 @@ class ArticleCreate(BaseModel):
     title: str
     author: str
     body: Optional[str]
-    tags:Optional[list]
+    tags: Optional[list]
 
     class Config:
         from_attributes = True
@@ -18,7 +18,7 @@ class ArticleResponse(BaseModel):
     title: str
     author: str
     body: Optional[str] = None
-    tags:Optional[list]
+    tags: Optional[list]
     created_at: datetime
     updated_at: datetime
 
@@ -30,7 +30,7 @@ class ArticleUpdate(BaseModel):
     title: Optional[str] = None
     author: Optional[str] = None
     body: Optional[str] = None
-    tags:Optional[list]
+    tags: Optional[list]
 
     class Config:
         from_attributes = True

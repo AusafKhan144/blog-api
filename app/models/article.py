@@ -24,4 +24,4 @@ class Article(Base):
         nullable=False,
     )
 
-    article_tags = relationship("ArticleTags",back_populates="article")
+    article_tags = relationship("ArticleTags", back_populates="article")

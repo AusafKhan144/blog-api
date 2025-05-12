@@ -1,9 +1,11 @@
 from app.schemas.article import ArticleCreate
-from app.models.tags import Tags,ArticleTags
+from app.models.tags import Tags, ArticleTags
 from sqlalchemy.orm import Session
 
 
-def handle_article_tags(db: Session, article_id: int, tag_names: list[str], replace: bool = True) -> list[str]:
+def handle_article_tags(
+    db: Session, article_id: int, tag_names: list[str], replace: bool = True
+) -> list[str]:
     tag_names_set = set(tag_names)
 
     # Get existing tags from DB
@@ -24,18 +26,21 @@ def handle_article_tags(db: Session, article_id: int, tag_names: list[str], repl
 
     # Add only new relationships
     existing_tag_ids = {
-        at.tag_id for at in db.query(ArticleTags).filter(ArticleTags.article_id == article_id).all()
+        at.tag_id
+        for at in db.query(ArticleTags)
+        .filter(ArticleTags.article_id == article_id)
+        .all()
     }
 
     new_relations = [
         ArticleTags(article_id=article_id, tag_id=tag.id)
-        for tag in all_tags if tag.id not in existing_tag_ids
+        for tag in all_tags
+        if tag.id not in existing_tag_ids
     ]
     db.add_all(new_relations)
 
     # Final list of tag names after update
     return [tag.name for tag in all_tags]
-
 
 
 def object_to_dict(obj):
